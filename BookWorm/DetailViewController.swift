@@ -17,6 +17,9 @@ class DetailViewController: UIViewController {
 
         title = "\(contents)"
         
+        
+        
+        
 
     }
     

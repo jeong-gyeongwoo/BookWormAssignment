@@ -15,4 +15,6 @@ class BookWormCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var contentsDate: UILabel!
     
+    @IBOutlet var likeButton: UIButton!
 }
+
