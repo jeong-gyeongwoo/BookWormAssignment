@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="b2f-2f-tYz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RxJ-r7-Ifb">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
@@ -150,15 +150,27 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHU-Ub-cBw">
+                                <rect key="frame" x="262" y="66" width="75" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="dismiss"/>
+                                <connections>
+                                    <action selector="viewDismissButton:" destination="b2f-2f-tYz" eventType="touchUpInside" id="Y7t-O5-iwF"/>
+                                    <action selector="viewDismissButton:" destination="zaf-bO-duN" eventType="touchUpInside" id="d65-4s-PG0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ai5-9x-0sH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="JHU-Ub-cBw" firstAttribute="leading" secondItem="ai5-9x-0sH" secondAttribute="leading" constant="262" id="060-r8-NUT"/>
                             <constraint firstItem="ai5-9x-0sH" firstAttribute="trailing" secondItem="eUk-Dp-PmW" secondAttribute="trailing" id="5E3-Jz-YNA"/>
                             <constraint firstItem="ai5-9x-0sH" firstAttribute="bottom" secondItem="eUk-Dp-PmW" secondAttribute="bottom" id="75P-YO-LhO"/>
                             <constraint firstItem="u1l-Lb-QPK" firstAttribute="trailing" secondItem="ai5-9x-0sH" secondAttribute="trailing" id="Qk7-nO-PyW"/>
                             <constraint firstItem="eUk-Dp-PmW" firstAttribute="leading" secondItem="ai5-9x-0sH" secondAttribute="leading" id="XO1-GU-FyM"/>
+                            <constraint firstItem="ai5-9x-0sH" firstAttribute="trailing" secondItem="JHU-Ub-cBw" secondAttribute="trailing" constant="56" id="aNY-Yk-mTK"/>
                             <constraint firstItem="eUk-Dp-PmW" firstAttribute="top" secondItem="u1l-Lb-QPK" secondAttribute="bottom" id="eR1-ee-XLW"/>
+                            <constraint firstItem="JHU-Ub-cBw" firstAttribute="top" secondItem="ai5-9x-0sH" secondAttribute="top" constant="7" id="faU-tq-iSc"/>
                             <constraint firstItem="u1l-Lb-QPK" firstAttribute="top" secondItem="ai5-9x-0sH" secondAttribute="top" id="wqa-EV-Ciz"/>
                             <constraint firstItem="u1l-Lb-QPK" firstAttribute="leading" secondItem="ai5-9x-0sH" secondAttribute="leading" id="xlV-uQ-svJ"/>
                         </constraints>
@@ -169,6 +181,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p7w-rQ-VsJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="zaf-bO-duN" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2574.8091603053435" y="-27.464788732394368"/>
         </scene>

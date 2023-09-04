@@ -24,5 +24,6 @@ class BookSearchTableViewCell: UITableViewCell {
         bookImageView.contentMode = .scaleAspectFit
     }
 
- 
+
+    
 }

@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import RealmSwift
+import Kingfisher
 
 private let reuseIdentifier = "Cell"
 
 class BookWormCollectionViewController: UICollectionViewController {
     var mvInfo = MovieInfo().movie
+    var bookRealm: Results<BookTable>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,7 +23,17 @@ class BookWormCollectionViewController: UICollectionViewController {
         collectionView.register(nib, forCellWithReuseIdentifier: "BookWormCollectionViewCell")
         setCollectionViewLayout()
         
+        let realm = try! Realm()
+        bookRealm = realm.objects(BookTable.self).sorted(byKeyPath: "title", ascending: true)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+       
+    }
+    
+    
     func RandomColor() -> UIColor {
         let red = CGFloat.random(in: 0...1)
         let green = CGFloat.random(in: 0...1)
@@ -29,7 +43,7 @@ class BookWormCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return MovieInfo().movie.count
+        return bookRealm.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -37,20 +51,20 @@ class BookWormCollectionViewController: UICollectionViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookWormCollectionViewCell", for: indexPath) as! BookWormCollectionViewCell
         
-        cell.backgroundColor = RandomColor()
-        
-        cell.contentsImage.image = UIImage(named: MovieInfo().movie[indexPath.row].title)
-        cell.contentsTitle.text = MovieInfo().movie[indexPath.row].title
-        cell.contentsDate.text = MovieInfo().movie[indexPath.row].releaseDate
+        let data = bookRealm[indexPath.row]
 
+        guard let url = URL(string: data.thumbnail) else { return UICollectionViewCell() }
+        cell.thumbnail.kf.setImage(with: url)
+        cell.titleAuthorPrice.text = "\(data.title) | \(data.authors) | \(data.price)"
+        cell.contents.text = data.contents
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
-    
-        if MovieInfo().movie[indexPath.row].like == true {
-            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
+        
+//        if MovieInfo().movie[indexPath.row].like == true {
+//            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//        } else {
+//            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+//        }
         
         
         return cell
@@ -93,7 +107,7 @@ class BookWormCollectionViewController: UICollectionViewController {
     @IBAction func searchBarButtonItemClicked(_ sender: UIBarButtonItem) {
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+        let vc = sb.instantiateViewController(withIdentifier: "BookSearchViewController") as! BookSearchViewController
         
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen

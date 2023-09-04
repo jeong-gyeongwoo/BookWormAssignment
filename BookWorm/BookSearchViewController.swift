@@ -9,7 +9,7 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 import Kingfisher
-
+import RealmSwift
 
 struct Book {
     
@@ -28,10 +28,10 @@ class BookSearchViewController: UIViewController {
     
     @IBOutlet var BookSearchTableView: UITableView!
     @IBOutlet var bookSearchBar: UISearchBar!
+    
     var page = 1
     var isEnd = false
     var bookList: [Book] = []
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +57,7 @@ class BookSearchViewController: UIViewController {
                 
                 self.isEnd = json["meta"]["is_End"].boolValue
                 
+                
                 for item in json["documents"].arrayValue {
                     let authors = item["authors"][0].stringValue
                     let contents = item["contents"].stringValue
@@ -66,13 +67,9 @@ class BookSearchViewController: UIViewController {
                     
                     let data = Book(authors: authors, contents: contents, thumbnail: thumbnail, title: title, price: price)
                     
-                    
-                    //print(url)
                     self.bookList.append(data)
-                    //print(self.bookList)
-                    //print(self.bookList.count)
                     self.BookSearchTableView.reloadData()
-
+                    
                 }
                 
             case .failure(let error):
@@ -80,12 +77,25 @@ class BookSearchViewController: UIViewController {
             }
         }
     }
+    
+    
+    @IBAction func viewDismissButton(_ sender: UIButton) {
+        navigationController?.dismiss(animated: true)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 extension BookSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked (_ searchBar: UISearchBar) {
-       
+        
         page = 1
         bookList.removeAll()
         
@@ -94,11 +104,6 @@ extension BookSearchViewController: UISearchBarDelegate {
     }
     
 }
-
-
-
-
-
 
 extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UITableViewDataSourcePrefetching {
     
@@ -130,4 +135,17 @@ extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UI
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let realm = try! Realm()
+        let bookRealm = BookTable(title: bookList[indexPath.row].title,
+                                  authors: bookList[indexPath.row].authors,
+                                  contents: bookList[indexPath.row].contents,
+                                  price: bookList[indexPath.row].price,
+                                  thumbnail: bookList[indexPath.row].thumbnail)
+        try! realm.write {
+            realm.add(bookRealm)
+        }
+    }
+    
 }
