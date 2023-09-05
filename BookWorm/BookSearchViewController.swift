@@ -32,7 +32,7 @@ class BookSearchViewController: UIViewController {
     var page = 1
     var isEnd = false
     var bookList: [Book] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         BookSearchTableView.delegate = self
@@ -127,12 +127,12 @@ extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookSearchTableViewCell") as! BookSearchTableViewCell
-        
+     
         cell.contentsLabel.text = bookList[indexPath.row].contents
         cell.titleLabel.text = bookList[indexPath.row].bookContents
         let url = URL(string: bookList[indexPath.row].thumbnail)
         cell.bookImageView.kf.setImage(with: url)
-        
+
         return cell
     }
     
@@ -146,6 +146,13 @@ extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UI
         try! realm.write {
             realm.add(bookRealm)
         }
+        // cellForRowAt셀과 다름? 그래서 저장이 안됨?
+       let cell = tableView.dequeueReusableCell(withIdentifier: "BookSearchTableViewCell") as! BookSearchTableViewCell
+        
+        if cell.bookImageView.image != nil {
+            saveImageToDocument(fileName: "book_\(bookRealm._id).jpg", image: cell.bookImageView.image!)
+        }
+        
     }
     
 }

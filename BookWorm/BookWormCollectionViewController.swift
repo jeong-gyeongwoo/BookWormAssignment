@@ -14,6 +14,7 @@ private let reuseIdentifier = "Cell"
 class BookWormCollectionViewController: UICollectionViewController {
     var mvInfo = MovieInfo().movie
     var bookRealm: Results<BookTable>!
+    let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,8 @@ class BookWormCollectionViewController: UICollectionViewController {
         collectionView.register(nib, forCellWithReuseIdentifier: "BookWormCollectionViewCell")
         setCollectionViewLayout()
         
-        let realm = try! Realm()
         bookRealm = realm.objects(BookTable.self).sorted(byKeyPath: "title", ascending: true)
+        //print(realm.configuration.fileURL)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +54,9 @@ class BookWormCollectionViewController: UICollectionViewController {
         
         let data = bookRealm[indexPath.row]
 
-        guard let url = URL(string: data.thumbnail) else { return UICollectionViewCell() }
-        cell.thumbnail.kf.setImage(with: url)
+        //guard let url = URL(string: data.thumbnail) else { return UICollectionViewCell() }
+        //cell.thumbnail.kf.setImage(with: url)
+        cell.thumbnail.image = loadImageToDocument(fileName: "book_\(data._id).jpg")
         cell.titleAuthorPrice.text = "\(data.title) | \(data.authors) | \(data.price)"
         cell.contents.text = data.contents
         cell.likeButton.tag = indexPath.row
@@ -121,14 +123,25 @@ class BookWormCollectionViewController: UICollectionViewController {
     
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)  {
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         
-        vc.contents = MovieInfo().movie[indexPath.row].title
+        let data = bookRealm[indexPath.row]
+        removeImageFromDocument(fileName: "book_\(data._id).jpg")
+        try! realm.write {
+            realm.delete(data)
+        }
+
+        collectionView.reloadData()
         
         
-        navigationController?.pushViewController(vc, animated: true)
         
+//        let sb = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = sb.instantiateViewController(withIdentifier: "BookMemoViewController") as! BookMemoViewController
+//        //수정
+//        vc.contents = "책 메모 내용 전달하기"
+//
+//
+//        navigationController?.pushViewController(vc, animated: true)
+//
     }
     
     

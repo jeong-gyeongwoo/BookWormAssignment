@@ -7,10 +7,11 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class BookMemoViewController: UIViewController {
     
     var contents: String = "빈 공간"
     
+    @IBOutlet var bookMemoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
