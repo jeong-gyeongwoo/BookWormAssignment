@@ -16,6 +16,7 @@ class BookTable: Object {
     @Persisted var contents: String
     @Persisted var price: Int
     @Persisted var thumbnail: String
+   // @Persisted var trans: String
 
     convenience init(title: String, authors: String, contents: String, price: Int, thumbnail: String ) {
        
@@ -26,6 +27,7 @@ class BookTable: Object {
         self.contents = contents
         self.price = price
         self.thumbnail = thumbnail
+       // self.trans = trans
     }
     
     

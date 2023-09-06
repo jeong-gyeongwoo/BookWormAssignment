@@ -40,7 +40,7 @@ extension UIViewController {
             try data.write(to: fileURL)
             print("성공")
         } catch let error {
-            print("저장 오류!!!", error)
+            print("저장 오류", error)
         }
 
 

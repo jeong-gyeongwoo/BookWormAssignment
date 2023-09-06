@@ -32,7 +32,8 @@ class BookSearchViewController: UIViewController {
     var page = 1
     var isEnd = false
     var bookList: [Book] = []
-        
+   // var cell = BookSearchTableViewCell()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         BookSearchTableView.delegate = self
@@ -121,18 +122,18 @@ extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UI
     }
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        print("========,\(indexPaths)")
+        //print("========,\(indexPaths)")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BookSearchTableViewCell") as! BookSearchTableViewCell
+       let cell = tableView.dequeueReusableCell(withIdentifier: "BookSearchTableViewCell") as! BookSearchTableViewCell
      
         cell.contentsLabel.text = bookList[indexPath.row].contents
         cell.titleLabel.text = bookList[indexPath.row].bookContents
         let url = URL(string: bookList[indexPath.row].thumbnail)
         cell.bookImageView.kf.setImage(with: url)
-
+        
         return cell
     }
     
@@ -143,16 +144,26 @@ extension BookSearchViewController: UITableViewDelegate,UITableViewDataSource,UI
                                   contents: bookList[indexPath.row].contents,
                                   price: bookList[indexPath.row].price,
                                   thumbnail: bookList[indexPath.row].thumbnail)
+        print(bookRealm)
         try! realm.write {
             realm.add(bookRealm)
-        }
-        // cellForRowAt셀과 다름? 그래서 저장이 안됨?
-       let cell = tableView.dequeueReusableCell(withIdentifier: "BookSearchTableViewCell") as! BookSearchTableViewCell
-        
-        if cell.bookImageView.image != nil {
-            saveImageToDocument(fileName: "book_\(bookRealm._id).jpg", image: cell.bookImageView.image!)
+          //  print("추가 성공")
         }
         
+        let value = URL(string: bookRealm.thumbnail )
+        DispatchQueue.global().async {
+            if let url = value, let data = try? Data(contentsOf: url ) {
+                DispatchQueue.main.async {
+                    self.saveImageToDocument(fileName: "book_\(bookRealm._id).jpg", image: UIImage(data: data)!)
+                }
+            }
+        }
     }
-    
+    // main.async -> UI관련 속성이라?
+    // global().async -> 네트워크 통신 관련 작업은(직접적인 통신이 아니여도) global().async?
+    /*
+     Synchronous URL loading of https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6167024%3Ftimestamp%3D20230725155343 should not occur on this application's main thread as it may lead to UI unresponsiveness. Please switch to an asynchronous networking API such as URLSession.
+     */
 }
+
+

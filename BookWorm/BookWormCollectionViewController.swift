@@ -26,12 +26,27 @@ class BookWormCollectionViewController: UICollectionViewController {
         
         bookRealm = realm.objects(BookTable.self).sorted(byKeyPath: "title", ascending: true)
         //print(realm.configuration.fileURL)
+        print(bookRealm)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.reloadData()
-       
+        NotificationCenter.default.addObserver(self, selector: #selector(memo), name: NSNotification.Name("bookMemo"), object: nil)
+    }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("bookMemo"), object: nil)
+//
+//    }
+//
+    @objc func memo(notification: NSNotification) {
+        if let text = notification.userInfo?["memo"] as? String {
+            print(text)
+            title = text
+        }
+    
     }
     
     
@@ -53,31 +68,38 @@ class BookWormCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookWormCollectionViewCell", for: indexPath) as! BookWormCollectionViewCell
         
         let data = bookRealm[indexPath.row]
-
+        
         //guard let url = URL(string: data.thumbnail) else { return UICollectionViewCell() }
         //cell.thumbnail.kf.setImage(with: url)
         cell.thumbnail.image = loadImageToDocument(fileName: "book_\(data._id).jpg")
         cell.titleAuthorPrice.text = "\(data.title) | \(data.authors) | \(data.price)"
         cell.contents.text = data.contents
-        cell.likeButton.tag = indexPath.row
-        cell.likeButton.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
+        //cell.memoButton.tag = indexPath.row
+        cell.memoButton.addTarget(self, action: #selector(memoButtonClicked), for: .touchUpInside)
         
-//        if MovieInfo().movie[indexPath.row].like == true {
-//            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        } else {
-//            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-//        }
+        //        if MovieInfo().movie[indexPath.row].like == true {
+        //            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        //        } else {
+        //            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        //        }
         
         
         return cell
     }
     
     @objc
-    func likeButtonClicked(_ sender: UIButton) {
-        // 변수 만들어 주기
-        mvInfo[sender.tag].like.toggle()
+    func memoButtonClicked(_ sender: UIButton) {
+        //mvInfo[sender.tag].like.toggle()
         //print(sender.tag)
-        collectionView.reloadData()
+        //collectionView.reloadData()
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "BookMemoViewController") as! BookMemoViewController
+        
+        vc.contents = "메모 적기"
+
+        navigationController?.pushViewController(vc, animated: true)
+
     }
     
     func setCollectionViewLayout() {
@@ -95,15 +117,12 @@ class BookWormCollectionViewController: UICollectionViewController {
     @IBAction func lookAroundBarButtonItem(_ sender: UIBarButtonItem) {
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "LookAroundViewController") as! LookAroundViewController
+        let vc = sb.instantiateViewController(withIdentifier: "MemoMovedViewController") as! MemoMovedViewController
         
         let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
+        //nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
-        
-        
-        
-        
+ 
     }
     
     @IBAction func searchBarButtonItemClicked(_ sender: UIBarButtonItem) {
@@ -118,10 +137,6 @@ class BookWormCollectionViewController: UICollectionViewController {
         
     }
     
-    
-    
-    
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)  {
         
         let data = bookRealm[indexPath.row]
@@ -129,20 +144,15 @@ class BookWormCollectionViewController: UICollectionViewController {
         try! realm.write {
             realm.delete(data)
         }
-
+        
         collectionView.reloadData()
         
         
-        
-//        let sb = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = sb.instantiateViewController(withIdentifier: "BookMemoViewController") as! BookMemoViewController
-//        //수정
-//        vc.contents = "책 메모 내용 전달하기"
-//
-//
-//        navigationController?.pushViewController(vc, animated: true)
-//
     }
     
-    
 }
+
+
+// viewWillDisappear 논리적 오류?
+//책 메모는 임시로 타이틀로 넘김
+// MemoMovedViewController -> notification

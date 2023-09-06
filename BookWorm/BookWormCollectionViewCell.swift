@@ -12,12 +12,8 @@ class BookWormCollectionViewCell: UICollectionViewCell {
     @IBOutlet var thumbnail: UIImageView!
     @IBOutlet var titleAuthorPrice: UILabel!
     @IBOutlet var contents: UILabel!
-    @IBOutlet var likeButton: UIButton!
+    @IBOutlet var memoButton: UIButton!
 }
 
-//title
-//author
-//contents
-//price
-//thumbnail
+
 

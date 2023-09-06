@@ -23,7 +23,7 @@
 		F463E0E72A779B7200B0077D /* BookWormCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463E0E52A779B7200B0077D /* BookWormCollectionViewCell.swift */; };
 		F463E0E82A779B7200B0077D /* BookWormCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F463E0E62A779B7200B0077D /* BookWormCollectionViewCell.xib */; };
 		F463E0EA2A77A98300B0077D /* MovieInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463E0E92A77A98300B0077D /* MovieInfo.swift */; };
-		F4820C3A2A7A357000617B3C /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4820C392A7A357000617B3C /* LookAroundViewController.swift */; };
+		F4820C3A2A7A357000617B3C /* MemoMovedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4820C392A7A357000617B3C /* MemoMovedViewController.swift */; };
 		F493F4B42AA587760061FBB9 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F493F4B32AA587760061FBB9 /* Realm */; };
 		F493F4B62AA587760061FBB9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F493F4B52AA587760061FBB9 /* RealmSwift */; };
 		F493F4B82AA5BFB60061FBB9 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F493F4B72AA5BFB60061FBB9 /* RealmModel.swift */; };
@@ -46,7 +46,7 @@
 		F463E0E52A779B7200B0077D /* BookWormCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookWormCollectionViewCell.swift; sourceTree = "<group>"; };
 		F463E0E62A779B7200B0077D /* BookWormCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookWormCollectionViewCell.xib; sourceTree = "<group>"; };
 		F463E0E92A77A98300B0077D /* MovieInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfo.swift; sourceTree = "<group>"; };
-		F4820C392A7A357000617B3C /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
+		F4820C392A7A357000617B3C /* MemoMovedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoMovedViewController.swift; sourceTree = "<group>"; };
 		F493F4B72AA5BFB60061FBB9 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		F4CBBF2D2AA7465D0075F510 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,7 +92,7 @@
 				F463E0D32A7799D900B0077D /* Main.storyboard */,
 				F4116F342A837EDA000D08E4 /* BookSearchTableViewCell.swift */,
 				F4116F322A837BAE000D08E4 /* BookSearchViewController.swift */,
-				F4820C392A7A357000617B3C /* LookAroundViewController.swift */,
+				F4820C392A7A357000617B3C /* MemoMovedViewController.swift */,
 				F45E0DCB2A77F9B1009372C3 /* BookMemoViewController.swift */,
 				F463E0E52A779B7200B0077D /* BookWormCollectionViewCell.swift */,
 				F463E0E62A779B7200B0077D /* BookWormCollectionViewCell.xib */,
@@ -202,7 +202,7 @@
 				F463E0E72A779B7200B0077D /* BookWormCollectionViewCell.swift in Sources */,
 				F463E0EA2A77A98300B0077D /* MovieInfo.swift in Sources */,
 				F463E0E42A779A9700B0077D /* BookWormCollectionViewController.swift in Sources */,
-				F4820C3A2A7A357000617B3C /* LookAroundViewController.swift in Sources */,
+				F4820C3A2A7A357000617B3C /* MemoMovedViewController.swift in Sources */,
 				F45E0DCC2A77F9B1009372C3 /* BookMemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
